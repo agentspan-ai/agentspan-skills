@@ -1,6 +1,0 @@
-interface:
-  display_name: "AgentSpan — Durable AI Agents"
-  short_description: "Build, run, and manage durable AI agents that survive crashes"
-  icon_small: "./assets/agentspan.png"
-  icon_large: "./assets/agentspan.png"
-  default_prompt: "Help me build and run durable AI agents with AgentSpan."
