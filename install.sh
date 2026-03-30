@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # AgentSpan Skills Installer
-# Installs AgentSpan skill files for AI coding agents.
+# Works on macOS (bash 3.x) and Linux (bash 4+).
 #
 # Usage:
 #   curl -sSL https://agentspan.github.io/agentspan-skills/install.sh | bash -s -- --all
@@ -61,57 +61,50 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Agent detection and install paths
-declare -A AGENT_PATHS
+# Agent path lookup (bash 3 compatible — no associative arrays)
+get_agent_path() {
+  case "$1" in
+    claude)   echo "$HOME/.claude/plugins/agentspan-skills" ;;
+    codex)    echo "$HOME/.codex/instructions" ;;
+    gemini)   echo "$HOME/.gemini/instructions" ;;
+    cursor)   echo "$HOME/.cursor/rules" ;;
+    windsurf) echo "$HOME/.windsurf/rules" ;;
+    cline)    echo "$HOME/.cline/instructions" ;;
+    aider)    echo "$HOME/.aider/instructions" ;;
+    copilot)  echo "$HOME/.config/github-copilot/instructions" ;;
+    amazonq)  echo "$HOME/.amazonq/instructions" ;;
+    roo)      echo "$HOME/.roo/instructions" ;;
+    amp)      echo "$HOME/.amp/instructions" ;;
+    opencode) echo "$HOME/.opencode/instructions" ;;
+    *) echo "" ;;
+  esac
+}
+
+ALL_AGENTS="claude codex gemini cursor windsurf cline aider copilot amazonq roo amp opencode"
+
 detect_agents() {
-  # Claude Code
-  if command -v claude &>/dev/null || [[ -d "$HOME/.claude" ]]; then
-    AGENT_PATHS[claude]="$HOME/.claude/plugins/agentspan-skills"
-  fi
-  # Codex
-  if command -v codex &>/dev/null || [[ -d "$HOME/.codex" ]]; then
-    AGENT_PATHS[codex]="$HOME/.codex/instructions"
-  fi
-  # Gemini CLI
-  if command -v gemini &>/dev/null || [[ -d "$HOME/.gemini" ]]; then
-    AGENT_PATHS[gemini]="$HOME/.gemini/instructions"
-  fi
-  # Cursor
-  if [[ -d "$HOME/.cursor" ]] || [[ -d "$HOME/Library/Application Support/Cursor" ]]; then
-    AGENT_PATHS[cursor]="$HOME/.cursor/rules"
-  fi
-  # Windsurf
-  if [[ -d "$HOME/.codeium" ]] || [[ -d "$HOME/.windsurf" ]]; then
-    AGENT_PATHS[windsurf]="$HOME/.windsurf/rules"
-  fi
-  # Cline
-  if [[ -d "$HOME/.cline" ]]; then
-    AGENT_PATHS[cline]="$HOME/.cline/instructions"
-  fi
-  # Aider
-  if command -v aider &>/dev/null || [[ -d "$HOME/.aider" ]]; then
-    AGENT_PATHS[aider]="$HOME/.aider/instructions"
-  fi
-  # GitHub Copilot
-  if [[ -d "$HOME/.config/github-copilot" ]]; then
-    AGENT_PATHS[copilot]="$HOME/.config/github-copilot/instructions"
-  fi
-  # Amazon Q
-  if command -v q &>/dev/null || [[ -d "$HOME/.amazonq" ]]; then
-    AGENT_PATHS[amazonq]="$HOME/.amazonq/instructions"
-  fi
-  # Roo
-  if [[ -d "$HOME/.roo" ]]; then
-    AGENT_PATHS[roo]="$HOME/.roo/instructions"
-  fi
-  # Amp
-  if command -v amp &>/dev/null || [[ -d "$HOME/.amp" ]]; then
-    AGENT_PATHS[amp]="$HOME/.amp/instructions"
-  fi
-  # OpenCode
-  if command -v opencode &>/dev/null || [[ -d "$HOME/.opencode" ]]; then
-    AGENT_PATHS[opencode]="$HOME/.opencode/instructions"
-  fi
+  local detected=""
+  for agent_name in $ALL_AGENTS; do
+    local found=false
+    case "$agent_name" in
+      claude)   command -v claude &>/dev/null || [[ -d "$HOME/.claude" ]] && found=true ;;
+      codex)    command -v codex &>/dev/null || [[ -d "$HOME/.codex" ]] && found=true ;;
+      gemini)   command -v gemini &>/dev/null || [[ -d "$HOME/.gemini" ]] && found=true ;;
+      cursor)   [[ -d "$HOME/.cursor" ]] || [[ -d "$HOME/Library/Application Support/Cursor" ]] && found=true ;;
+      windsurf) [[ -d "$HOME/.codeium" ]] || [[ -d "$HOME/.windsurf" ]] && found=true ;;
+      cline)    [[ -d "$HOME/.cline" ]] && found=true ;;
+      aider)    command -v aider &>/dev/null || [[ -d "$HOME/.aider" ]] && found=true ;;
+      copilot)  [[ -d "$HOME/.config/github-copilot" ]] && found=true ;;
+      amazonq)  command -v q &>/dev/null || [[ -d "$HOME/.amazonq" ]] && found=true ;;
+      roo)      [[ -d "$HOME/.roo" ]] && found=true ;;
+      amp)      command -v amp &>/dev/null || [[ -d "$HOME/.amp" ]] && found=true ;;
+      opencode) command -v opencode &>/dev/null || [[ -d "$HOME/.opencode" ]] && found=true ;;
+    esac
+    if $found; then
+      detected="$detected $agent_name"
+    fi
+  done
+  echo "$detected"
 }
 
 get_remote_version() {
@@ -140,7 +133,14 @@ download_file() {
 
 install_for_agent() {
   local agent_name="$1"
-  local install_path="$2"
+  local install_path
+  install_path=$(get_agent_path "$agent_name")
+
+  if [[ -z "$install_path" ]]; then
+    err "Unknown agent: $agent_name"
+    return 1
+  fi
+
   local remote_version
   remote_version=$(get_remote_version)
 
@@ -189,7 +189,7 @@ install_for_agent() {
       ok "  $file"
     else
       err "  Failed: $file"
-      ((failed++))
+      failed=$((failed + 1))
     fi
   done
 
@@ -208,38 +208,19 @@ EOF
 }
 
 # Main
-detect_agents
-
 if $ALL; then
-  if [[ ${#AGENT_PATHS[@]} -eq 0 ]]; then
+  DETECTED=$(detect_agents)
+  if [[ -z "$DETECTED" ]]; then
     warn "No supported agents detected on this system."
-    info "Supported: claude, codex, gemini, cursor, windsurf, cline, aider, copilot, amazonq, roo, amp, opencode"
+    info "Supported: $ALL_AGENTS"
     exit 1
   fi
-  info "Detected ${#AGENT_PATHS[@]} agent(s): ${!AGENT_PATHS[*]}"
-  for agent_name in "${!AGENT_PATHS[@]}"; do
-    install_for_agent "$agent_name" "${AGENT_PATHS[$agent_name]}"
+  info "Detected agents:$DETECTED"
+  for agent_name in $DETECTED; do
+    install_for_agent "$agent_name"
   done
 elif [[ -n "$AGENT" ]]; then
-  # For specific agent, set path even if not auto-detected
-  if [[ -z "${AGENT_PATHS[$AGENT]+x}" ]]; then
-    case $AGENT in
-      claude)   AGENT_PATHS[$AGENT]="$HOME/.claude/plugins/agentspan-skills" ;;
-      codex)    AGENT_PATHS[$AGENT]="$HOME/.codex/instructions" ;;
-      gemini)   AGENT_PATHS[$AGENT]="$HOME/.gemini/instructions" ;;
-      cursor)   AGENT_PATHS[$AGENT]="$HOME/.cursor/rules" ;;
-      windsurf) AGENT_PATHS[$AGENT]="$HOME/.windsurf/rules" ;;
-      cline)    AGENT_PATHS[$AGENT]="$HOME/.cline/instructions" ;;
-      aider)    AGENT_PATHS[$AGENT]="$HOME/.aider/instructions" ;;
-      copilot)  AGENT_PATHS[$AGENT]="$HOME/.config/github-copilot/instructions" ;;
-      amazonq)  AGENT_PATHS[$AGENT]="$HOME/.amazonq/instructions" ;;
-      roo)      AGENT_PATHS[$AGENT]="$HOME/.roo/instructions" ;;
-      amp)      AGENT_PATHS[$AGENT]="$HOME/.amp/instructions" ;;
-      opencode) AGENT_PATHS[$AGENT]="$HOME/.opencode/instructions" ;;
-      *) err "Unknown agent: $AGENT"; exit 1 ;;
-    esac
-  fi
-  install_for_agent "$AGENT" "${AGENT_PATHS[$AGENT]}"
+  install_for_agent "$AGENT"
 else
   echo "AgentSpan Skills Installer"
   echo ""
@@ -250,12 +231,12 @@ else
   echo "  install.sh --all --uninstall  Remove all installations"
   echo "  install.sh --all --check      Check install status (dry run)"
   echo ""
-  detect_agents
-  if [[ ${#AGENT_PATHS[@]} -gt 0 ]]; then
-    info "Detected agents: ${!AGENT_PATHS[*]}"
+  DETECTED=$(detect_agents)
+  if [[ -n "$DETECTED" ]]; then
+    info "Detected agents:$DETECTED"
   else
     warn "No agents detected"
   fi
   echo ""
-  echo "Supported: claude, codex, gemini, cursor, windsurf, cline, aider, copilot, amazonq, roo, amp, opencode"
+  echo "Supported: $ALL_AGENTS"
 fi

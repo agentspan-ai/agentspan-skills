@@ -15,7 +15,7 @@ Agent(
     name: str,                          # Required. Unique identifier.
     model: str,                         # Required. "provider/model" format.
     instructions: str | Callable,       # System prompt or callable returning prompt.
-    tools: list = [],                   # @tool functions, http_tool, mcp_tool, api_tool
+    tools: list = [],                   # @tool functions, http_tool, mcp_tool, search_tool, etc.
     agents: list[Agent] = [],           # Sub-agents for multi-agent orchestration
     strategy: str = "handoff",          # handoff|sequential|parallel|router|round_robin|random|swarm|manual
     router: Agent = None,               # Router agent (for strategy="router")
@@ -177,16 +177,12 @@ tools = mcp_tool(
 )
 ```
 
-### api_tool (OpenAPI spec auto-discovery)
+### Built-in tools
 
 ```python
-from agentspan.agents import api_tool
+from agentspan.agents import search_tool, image_tool, audio_tool, video_tool, pdf_tool, index_tool
 
-tools = api_tool(
-    url="https://example.com/openapi.json",
-    tool_names=["Operation1", "Operation2"],
-    credentials=["API_KEY"],
-)
+# Pre-built server-side tools for common operations
 ```
 
 ### agent_tool (agent as tool)
