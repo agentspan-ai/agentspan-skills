@@ -91,12 +91,12 @@ def handle_list_agents(args):
 
 
 def handle_get_agent(args):
-    result = api_request("GET", f"/agent/get/{args.name}")
+    result = api_request("GET", f"/agent/{args.name}")
     print(json.dumps(result, indent=2))
 
 
 def handle_delete_agent(args):
-    api_request("DELETE", f"/agent/delete/{args.name}")
+    api_request("DELETE", f"/agent/{args.name}")
     print(f"Deleted: {args.name}")
 
 

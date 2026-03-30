@@ -61,7 +61,7 @@ GET /api/agent/list
 ### Get agent definition
 
 ```
-GET /api/agent/get/{name}
+GET /api/agent/{name}
 
 → {full workflow definition}
 ```
@@ -69,7 +69,7 @@ GET /api/agent/get/{name}
 ### Delete agent
 
 ```
-DELETE /api/agent/delete/{name}
+DELETE /api/agent/{name}
 
 → 200 OK
 ```
