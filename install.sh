@@ -108,7 +108,13 @@ detect_agents() {
 }
 
 get_remote_version() {
-  curl -sSL "$VERSION_URL" 2>/dev/null || echo "unknown"
+  local ver
+  ver=$(curl -sSL "$VERSION_URL" 2>/dev/null)
+  if [[ "$ver" == *"Not Found"* ]] || [[ "$ver" == *"DOCTYPE"* ]] || [[ -z "$ver" ]]; then
+    echo "1.0.0"
+  else
+    echo "$ver"
+  fi
 }
 
 get_local_version() {
