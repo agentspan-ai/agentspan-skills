@@ -1,0 +1,21 @@
+{
+  "name": "create-and-run-agent",
+  "description": "Create a simple agent with a tool and run it end-to-end",
+  "query": "Create a simple agent that can search the web and summarize results, then run it.",
+  "expected_behavior": [
+    "Check prerequisites (CLI, server, SDK)",
+    "Write a Python file with Agent, @tool, and AgentRuntime",
+    "Tool function has type hints and docstring",
+    "Run the agent with python3",
+    "Check result.is_success before using output",
+    "Present the result to the user"
+  ],
+  "success_criteria": [
+    "Agent writes code to a file, not python3 -c",
+    "Tool has type hints and docstring",
+    "Uses AgentRuntime context manager",
+    "Checks result.is_success",
+    "Uses result.output[\"result\"] not result.output directly",
+    "Agent name is valid (alphanumeric + underscore/hyphen)"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "monitor-executions",
+  "description": "Search and inspect agent executions by status and time",
+  "query": "Show me all failed agent executions from today and help me understand what went wrong.",
+  "expected_behavior": [
+    "Search failed executions: agentspan agent execution --status FAILED --since 1d",
+    "For each failure, get detailed status: agentspan agent status <id>",
+    "Identify root causes (missing credentials, timeouts, tool errors)",
+    "Present diagnostic table with agent name, failed task, root cause, and fix",
+    "Offer to help fix the issues"
+  ],
+  "success_criteria": [
+    "Uses agentspan agent execution with --status and --since flags",
+    "Inspects individual executions for root cause",
+    "Distinguishes different failure types",
+    "Provides actionable fixes"
+  ]
+}
