@@ -27,31 +27,31 @@ Teach your AI coding agent how to build, run, monitor, and manage durable AI age
 macOS / Linux:
 
 ```bash
-curl -sSL https://agentspan.github.io/agentspan-skills/install.sh | bash -s -- --all
+curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --all
 ```
 
 Windows (PowerShell):
 
 ```powershell
-irm https://agentspan.github.io/agentspan-skills/install.ps1 -OutFile install.ps1; .\install.ps1 -All
+irm https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.ps1 -OutFile install.ps1; .\install.ps1 -All
 ```
 
 ### Per-agent install
 
 | Agent | Command |
 |-------|---------|
-| Claude Code | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent claude` |
-| Codex | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent codex` |
-| Gemini CLI | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent gemini` |
-| Cursor | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent cursor` |
-| Windsurf | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent windsurf` |
-| Cline | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent cline` |
-| Copilot | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent copilot` |
-| Aider | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent aider` |
-| Amazon Q | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent amazonq` |
-| Roo | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent roo` |
-| Amp | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent amp` |
-| OpenCode | `curl -sSL https://agentspan.github.io/agentspan-skills/install.sh \| bash -s -- --agent opencode` |
+| Claude Code | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent claude` |
+| Codex | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent codex` |
+| Gemini CLI | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent gemini` |
+| Cursor | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent cursor` |
+| Windsurf | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent windsurf` |
+| Cline | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent cline` |
+| Copilot | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent copilot` |
+| Aider | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent aider` |
+| Amazon Q | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent amazonq` |
+| Roo | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent roo` |
+| Amp | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent amp` |
+| OpenCode | `curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh \| bash -s -- --agent opencode` |
 
 ## Example prompts
 
@@ -82,13 +82,13 @@ Try these after installing:
 ## Upgrade
 
 ```bash
-curl -sSL https://agentspan.github.io/agentspan-skills/install.sh | bash -s -- --all --upgrade
+curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --all --upgrade
 ```
 
 ## Uninstall
 
 ```bash
-curl -sSL https://agentspan.github.io/agentspan-skills/install.sh | bash -s -- --all --uninstall
+curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --all --uninstall
 ```
 
 ## Evaluations

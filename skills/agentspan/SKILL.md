@@ -24,12 +24,12 @@ AI agents that don't die when your process dies. Agents compile to server-side w
 ## Updating this skill
 
 ```bash
-curl -sSL https://agentspan.github.io/agentspan-skills/install.sh | bash -s -- --all --upgrade
+curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --all --upgrade
 ```
 
 On Windows:
 ```powershell
-irm https://agentspan.github.io/agentspan-skills/install.ps1 -OutFile install.ps1; .\install.ps1 -All -Upgrade
+irm https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.ps1 -OutFile install.ps1; .\install.ps1 -All -Upgrade
 ```
 
 ## First-time setup
@@ -201,7 +201,7 @@ def lookup(query: str, context: ToolContext) -> str:
 ### Server-side tools (no local worker needed)
 
 ```python
-from agentspan.agents import http_tool, mcp_tool, api_tool
+from agentspan.agents import http_tool, mcp_tool, search_tool
 
 weather = http_tool(
     name="get_weather",
@@ -216,11 +216,7 @@ github = mcp_tool(
     credentials=["GITHUB_TOKEN"],
 )
 
-stripe = api_tool(
-    url="https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json",
-    tool_names=["CreatePaymentIntent", "ListCustomers"],
-    credentials=["STRIPE_SECRET_KEY"],
-)
+# Built-in tools: search_tool, image_tool, audio_tool, video_tool, pdf_tool, index_tool
 ```
 
 ### Agent as tool
