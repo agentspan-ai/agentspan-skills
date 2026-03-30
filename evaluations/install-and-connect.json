@@ -1,0 +1,21 @@
+{
+  "name": "install-and-connect",
+  "description": "First-time setup: install CLI, start server, verify connectivity",
+  "query": "I want to start building AI agents with AgentSpan but I don't have anything set up yet.",
+  "expected_behavior": [
+    "Check if agentspan CLI is installed (agentspan --version)",
+    "If missing, install via npm install -g @agentspan/agentspan",
+    "Ask user: local server or remote server",
+    "Start local server if chosen (agentspan server start)",
+    "Run agentspan doctor to verify setup",
+    "Install Python SDK (pip install agentspan)",
+    "Confirm setup is complete"
+  ],
+  "success_criteria": [
+    "Agent runs the install command itself, does not just suggest it",
+    "Agent asks user to choose local vs remote server",
+    "Agent runs agentspan doctor to verify",
+    "Agent never prints auth tokens or secrets",
+    "Agent installs Python SDK"
+  ]
+}

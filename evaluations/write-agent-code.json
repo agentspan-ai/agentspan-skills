@@ -1,0 +1,18 @@
+{
+  "name": "write-agent-code",
+  "description": "Write a Python agent file from scratch following SDK patterns",
+  "query": "Write me a Python agent that analyzes sentiment of text and returns structured output.",
+  "expected_behavior": [
+    "Create a Pydantic model for structured output",
+    "Create an Agent with output_type set to the model",
+    "Use AgentRuntime context manager",
+    "Check result.is_success",
+    "Access typed output from result.output"
+  ],
+  "success_criteria": [
+    "Defines a Pydantic BaseModel for output",
+    "Uses output_type parameter on Agent",
+    "Writes code to a file, not python3 -c",
+    "Follows all SDK conventions (type hints, docstrings, error checking)"
+  ]
+}
