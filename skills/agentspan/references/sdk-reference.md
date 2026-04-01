@@ -51,7 +51,7 @@ from agentspan.agents import AgentRuntime, AgentConfig
 rt = AgentRuntime()
 
 # Explicit config
-config = AgentConfig(server_url="http://localhost:8080/api", api_key="...")
+config = AgentConfig(server_url="http://localhost:6767", api_key="...")
 rt = AgentRuntime(config=config)
 
 # Context manager
@@ -83,7 +83,7 @@ with AgentRuntime() as rt:
     rt.serve(agent)      # Start workers (blocks forever)
 
     # Status
-    status = rt.get_status(workflow_id)
+    status = rt.get_status(execution_id)
 ```
 
 ## AgentResult
@@ -92,7 +92,7 @@ with AgentRuntime() as rt:
 result.output            # Dict: {"result": "..."} or Pydantic model
 result.output["result"]  # Text output string
 result.status            # "COMPLETED" | "FAILED" | "TERMINATED" | "TIMED_OUT"
-result.workflow_id       # Execution ID
+result.execution_id      # Execution ID
 result.error             # Error message or None
 result.token_usage       # {"input_tokens": N, "output_tokens": N}
 result.finish_reason     # "stop" | "length" | "error" | "cancelled" | "timeout" | "guardrail"
@@ -107,7 +107,7 @@ result.print_result()    # Pretty-print
 ```python
 handle = rt.start(agent, "prompt")
 
-handle.workflow_id       # Execution ID
+handle.execution_id      # Execution ID
 handle.pause()           # Pause execution
 handle.resume()          # Resume execution
 handle.cancel(reason)    # Cancel with reason
@@ -142,7 +142,7 @@ from agentspan.agents import tool, ToolContext
 @tool
 def my_func(param: str, context: ToolContext) -> str:
     """Tool with context injection."""
-    context.workflow_id      # Current workflow ID
+    context.execution_id     # Current execution ID
     context.session_id       # Session ID
     context.state            # Mutable dict shared across calls
     context.dependencies     # From Agent(dependencies={...})
@@ -180,7 +180,7 @@ tools = mcp_tool(
 ### Built-in tools
 
 ```python
-from agentspan.agents import search_tool, image_tool, audio_tool, video_tool, pdf_tool, index_tool
+from agentspan.agents import search_tool, index_tool
 
 # Pre-built server-side tools for common operations
 ```

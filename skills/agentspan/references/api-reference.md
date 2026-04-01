@@ -1,6 +1,6 @@
 # AgentSpan REST API Reference
 
-Base URL: `{AGENTSPAN_SERVER_URL}` (default: `http://localhost:8080/api`)
+Base URL: `{AGENTSPAN_SERVER_URL}` (default: `http://localhost:6767`)
 
 ## Authentication
 

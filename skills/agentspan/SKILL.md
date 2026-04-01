@@ -13,7 +13,7 @@ AI agents that don't die when your process dies. Agents compile to server-side w
 - **Always install and use the `agentspan` CLI proactively.** If missing, run `npm install -g @agentspan/agentspan`. Verify with `agentspan --version` and `agentspan doctor`. Do not just tell the user to install it — do it yourself.
 - **Never hardcode credentials in code.** Always use `agentspan credentials set --name KEY` and reference via `credentials=["KEY"]` in Agent definitions.
 - **Never use `python3 -c`** for any purpose. Write Python to files using the Write tool, then run them.
-- **Server resolution:** `AGENTSPAN_SERVER_URL` env var or `agentspan configure` settings. Default local server: `http://localhost:8080/api`.
+- **Server resolution:** `AGENTSPAN_SERVER_URL` env var or `agentspan configure` settings. Default local server: `http://localhost:6767`.
 - **Always check `result.is_success`** before using `result.output` — especially in autonomous agent flows.
 - **Agent names must be unique** — alphanumeric + underscore/hyphen, start with letter or underscore.
 - **Tools need type hints and docstrings** — schema is auto-generated from them.
@@ -192,10 +192,10 @@ from agentspan.agents import tool, ToolContext
 @tool
 def lookup(query: str, context: ToolContext) -> str:
     """Search with context."""
-    wf_id = context.workflow_id
+    exec_id = context.execution_id
     state = context.state          # Mutable dict shared across tool calls
     deps = context.dependencies    # From Agent(dependencies={...})
-    return f"Found in workflow {wf_id}"
+    return f"Found in execution {exec_id}"
 ```
 
 ### Server-side tools (no local worker needed)
@@ -216,7 +216,7 @@ github = mcp_tool(
     credentials=["GITHUB_TOKEN"],
 )
 
-# Built-in tools: search_tool, image_tool, audio_tool, video_tool, pdf_tool, index_tool
+# Built-in tools: search_tool, index_tool
 ```
 
 ### Agent as tool
@@ -263,7 +263,7 @@ with AgentRuntime() as rt:
 
 ```python
     handle = rt.start(agent, "prompt")
-    status = rt.get_status(handle.workflow_id)
+    status = rt.get_status(handle.execution_id)
     handle.pause()
     handle.resume()
     handle.cancel("no longer needed")
@@ -638,7 +638,7 @@ result = rt.run(agent, "prompt")
 result.output            # Dict: {"result": "..."} or structured output
 result.output["result"]  # The text output (string)
 result.status            # "COMPLETED", "FAILED", "TERMINATED", "TIMED_OUT"
-result.workflow_id       # Workflow execution ID
+result.execution_id      # Execution ID
 result.error             # Error message if failed, else None
 result.token_usage       # {"input_tokens": N, "output_tokens": N}
 result.finish_reason     # "stop", "length", "error", "cancelled", "timeout", "guardrail"
@@ -650,7 +650,7 @@ result.print_result()    # Pretty-print output
 
 ## Output formatting
 
-- Present agent results as structured summaries: workflow_id, status, output, token_usage.
+- Present agent results as structured summaries: execution_id, status, output, token_usage.
 - For executions, show a table with execution_id, agent_name, status, start_time.
 - On failures, include the error message, failed task, and finish_reason.
 - Never echo credentials or secrets in output.
@@ -663,4 +663,4 @@ result.print_result()    # Pretty-print output
 - **Missing credentials**: Store with `agentspan credentials set --name KEY`. Agent gets `FAILED_WITH_TERMINAL_ERROR` if credential is missing.
 - **Tool schema errors**: Ensure tool functions have type hints and docstrings.
 - **Agent name collision**: Agent names must be unique. Check with `agentspan agent list`.
-- **Docs**: https://github.com/agentspan/agentspan
+- **Docs**: https://github.com/agentspan-ai/agentspan

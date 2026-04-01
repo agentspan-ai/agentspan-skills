@@ -4,7 +4,7 @@
 Stdlib-only (no third-party deps). Use when the agentspan CLI cannot be installed.
 
 Usage:
-    export AGENTSPAN_SERVER_URL=http://localhost:8080/api
+    export AGENTSPAN_SERVER_URL=http://localhost:6767
     python3 agentspan_api.py list-agents
     python3 agentspan_api.py start-agent --config agent.json
     python3 agentspan_api.py get-execution --id <workflow-id>
@@ -21,7 +21,7 @@ import time
 import urllib.request
 import urllib.error
 
-SERVER_URL = os.environ.get("AGENTSPAN_SERVER_URL", "http://localhost:8080/api")
+SERVER_URL = os.environ.get("AGENTSPAN_SERVER_URL", "http://localhost:6767")
 AUTH_KEY = os.environ.get("AGENTSPAN_AUTH_KEY", "")
 AUTH_SECRET = os.environ.get("AGENTSPAN_AUTH_SECRET", "")
 AUTH_TOKEN = os.environ.get("AGENTSPAN_AUTH_TOKEN", "")
