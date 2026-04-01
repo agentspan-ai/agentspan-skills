@@ -59,6 +59,7 @@ from agentspan.agents import Strategy, Status, FinishReason, TokenUsage
 from agentspan.agents import TextMentionTermination, MaxMessageTermination, StopMessageTermination, TokenUsageTermination
 from agentspan.agents import CallbackHandler, ConversationMemory, SemanticMemory
 from agentspan.agents import http_tool, mcp_tool, agent_tool, search_tool, index_tool
+from agentspan.agents import image_tool, audio_tool, video_tool, pdf_tool, api_tool, human_tool
 from agentspan.agents.testing import mock_run, MockEvent, expect
 ```
 
@@ -87,22 +88,33 @@ from agentspan.agents.testing import mock_run, MockEvent, expect
 - `Guardrail(func=my_fn, ...)` — `func=` NOT `fn=`
 - `RegexGuardrail` has no `flags=` param
 
+### configure() server URL
+`configure(server_url=...)` requires the URL to include `/api`:
+```python
+configure(server_url="http://localhost:6767/api")   # correct
+configure(server_url="http://localhost:6767")        # WRONG — builds bad URLs
+```
+
+### Additional built-in tools (server-side, no worker needed)
+Beyond `search_tool` and `index_tool`, these also exist:
+- `image_tool(name, description, llm_provider, model, ...)` — image generation
+- `audio_tool(name, description, llm_provider, model, ...)` — audio generation
+- `video_tool(name, description, llm_provider, model, ...)` — video generation
+- `pdf_tool(name, description, ...)` — PDF generation from markdown
+- `api_tool(url, name, ...)` — wraps an OpenAPI/REST endpoint
+- `human_tool(name, description, ...)` — human-in-the-loop tool
+
 ### Things that do NOT exist
-- `image_tool`, `audio_tool`, `video_tool`, `pdf_tool` — only `search_tool` and `index_tool`
 - `handle.wait()` — use `handle.stream().get_result()`
 - `handle.select_agent()` — doesn't exist
 - `runtime.register_workers()` — use `runtime.serve(agent, blocking=False)`
 - `result.workflow_id` — use `result.execution_id`
 - `handle.workflow_id` — use `handle.execution_id`
-- `memory.store()` — use `memory.add()`
+- `memory.store()` as a callable — `memory.add()` is the correct method
 - `configure(providers={...})` — providers param doesn't exist
 - `async with stream_async(...)` — not supported; use `s = await stream_async(...)` then `async for event in s`
 - `parallel(a, b)` / `handoff([a, b])` — not functions
 - `agentspan.integrations.*` — no such module
 
 ### Install note
-`conductor-python>=1.3.6` is required but not on PyPI yet. Dev install:
-```bash
-pip install "conductor-python @ git+https://github.com/conductor-oss/python-sdk.git"
-pip install agentspan --no-deps
-```
+`pip install agentspan` installs all dependencies including `conductor-python>=1.3.9` from PyPI.
