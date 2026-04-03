@@ -3,7 +3,7 @@
   "description": "Build, run, monitor, and manage durable AI agents with AgentSpan. Use when the user wants to create agents, define tools, orchestrate multi-agent teams, handle human-in-the-loop approvals, stream events, or manage credentials.",
   "version": "1.0.0",
   "author": { "name": "AgentSpan" },
-  "homepage": "https://github.com/agentspan/agentspan-skills",
+  "homepage": "https://github.com/agentspan-ai/agentspan-skills",
   "license": "MIT",
   "keywords": ["agentspan", "agents", "ai", "durable", "orchestration", "multi-agent", "human-in-the-loop"]
 }
