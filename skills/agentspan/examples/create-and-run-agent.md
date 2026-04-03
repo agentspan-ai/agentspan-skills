@@ -11,7 +11,7 @@ agentspan --version
 agentspan doctor
 ```
 
-Server is running on localhost:8080. Python SDK installed.
+Server is running on localhost:6767. Python SDK installed.
 
 ### Step 2 — Write the agent
 

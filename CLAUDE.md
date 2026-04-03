@@ -12,10 +12,10 @@ The canonical agentspan SDK: github.com/agentspan-ai/agentspan
 
 ```bash
 # Install all skills locally (for testing)
-curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --all
+curl -sSL https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main/install.sh | bash -s -- --all
 
 # Claude Code plugin
-/plugin marketplace add agentspan/agentspan-skills
+/plugin marketplace add agentspan-ai/agentspan-skills
 /plugin install agentspan@agentspan-skills
 ```
 
@@ -69,8 +69,8 @@ from agentspan.agents.testing import mock_run, MockEvent, expect
 - Default multi-agent strategy: `HANDOFF` (not SEQUENTIAL)
 
 ### AgentResult fields
-- `result.output` → always a `dict`: `{'result': str, 'finishReason': str}`
-- `result.output['result']` → the text output
+- `result.output` → a `dict` `{'result': str, 'finishReason': str}` for plain text agents; a Pydantic model instance when `output_type=` is set on the agent
+- `result.output['result']` → the text output (only when no `output_type` is set)
 - `result.execution_id` → str or None (NOT `workflow_id`)
 - `result.token_usage` → only populated via `AgentRuntime` context manager; None via module-level `run()`
 

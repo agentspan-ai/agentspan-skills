@@ -17,8 +17,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$RepoUrl = "https://raw.githubusercontent.com/agentspan/agentspan-skills/main"
-$VersionUrl = "https://raw.githubusercontent.com/agentspan/agentspan-skills/main/VERSION"
+$RepoUrl = "https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main"
+$VersionUrl = "https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main/VERSION"
 
 $SkillFiles = @(
     "skills/agentspan/SKILL.md"

@@ -57,17 +57,17 @@ Reason: 401 Unauthorized - GITHUB_TOKEN expired
 
 | Agent | Failed Task | Root Cause | Fix |
 |-------|-------------|-----------|-----|
-| research_writer | web_search | Missing credential `SEARCH_API_KEY` | `agentspan credentials set --name SEARCH_API_KEY` |
+| research_writer | web_search | Missing credential `SEARCH_API_KEY` | `agentspan credentials set SEARCH_API_KEY <value>` |
 | data_pipeline | analyze_data | LLM timeout (30s) | Increase `timeout_seconds` or use a faster model |
-| github_agent | create_issue | Expired `GITHUB_TOKEN` | Update: `agentspan credentials set --name GITHUB_TOKEN` |
+| github_agent | create_issue | Expired `GITHUB_TOKEN` | Update: `agentspan credentials set GITHUB_TOKEN <new-token>` |
 
 ### Step 4 — Fix and retry
 
 For the credential issues:
 
 ```bash
-agentspan credentials set --name SEARCH_API_KEY
-agentspan credentials set --name GITHUB_TOKEN
+agentspan credentials set SEARCH_API_KEY <your-key>
+agentspan credentials set GITHUB_TOKEN <new-token>
 ```
 
 Then re-run the agents:

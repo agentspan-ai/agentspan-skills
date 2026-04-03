@@ -10,7 +10,7 @@ AI agents that don't die when your process dies. Agents compile to server-side w
 
 ## Rules
 
-- **Always install and use the `agentspan` CLI proactively.** If missing, run `npm install -g @agentspan/agentspan`. Verify with `agentspan --version` and `agentspan doctor`. Do not just tell the user to install it — do it yourself.
+- **Always install and use the `agentspan` CLI proactively.** If missing, run `npm install -g @agentspan-ai/agentspan`. Verify with `agentspan --version` and `agentspan doctor`. Do not just tell the user to install it — do it yourself.
 - **Never hardcode credentials in code.** Always use `agentspan credentials set --name KEY` and reference via `credentials=["KEY"]` in Agent definitions.
 - **Never use `python3 -c`** for any purpose. Write Python to files using the Write tool, then run them.
 - **Server resolution:** `AGENTSPAN_SERVER_URL` env var or `agentspan configure` settings. Default local server: `http://localhost:6767`.
@@ -24,12 +24,12 @@ AI agents that don't die when your process dies. Agents compile to server-side w
 ## Updating this skill
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --all --upgrade
+curl -sSL https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main/install.sh | bash -s -- --all --upgrade
 ```
 
 On Windows:
 ```powershell
-irm https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.ps1 -OutFile install.ps1; .\install.ps1 -All -Upgrade
+irm https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main/install.ps1 -OutFile install.ps1; .\install.ps1 -All -Upgrade
 ```
 
 ## First-time setup
@@ -48,10 +48,10 @@ If not installed:
 npm --version
 ```
 
-If npm is missing, install Node.js first (`brew install node` on macOS). Then:
+If npm is missing, install Node.js first (see https://nodejs.org). Then:
 
 ```bash
-npm install -g @agentspan/agentspan
+npm install -g @agentspan-ai/agentspan
 ```
 
 Verify:
@@ -80,12 +80,12 @@ pip install agentspan
 agentspan server start
 ```
 
-Verify: `agentspan server status`
+Verify: `agentspan doctor`
 
 **Option B — Remote server:**
 
 ```bash
-agentspan configure --url https://your-server:8080/api --auth-key YOUR_KEY
+agentspan configure --url https://your-server.example.com --auth-key YOUR_KEY
 ```
 
 ### Step 3 — Test connectivity
@@ -427,7 +427,7 @@ When the agent calls this tool, execution pauses. Approve or reject from any mac
 agentspan agent respond <execution-id> --approve
 
 # Reject with reason
-agentspan agent respond <execution-id> --reject --reason "Not ready"
+agentspan agent respond <execution-id> --deny --reason "Not ready"
 ```
 
 Or via Python:
@@ -501,11 +501,11 @@ results = memory.search("What language does the user prefer?")
 Credentials are always resolved from the server. No env var fallback. Missing credentials cause `FAILED_WITH_TERMINAL_ERROR`.
 
 ```bash
-# Store credentials on server
-agentspan credentials set --name GITHUB_TOKEN
-agentspan credentials set --name OPENAI_API_KEY
+# Store credentials on server (KEY then VALUE as positional args)
+agentspan credentials set GITHUB_TOKEN ghp_xxxxxxxxxxxx
+agentspan credentials set OPENAI_API_KEY sk-xxxxxxxxxxxx
 
-# List stored credentials
+# List stored credential keys (values never shown)
 agentspan credentials list
 ```
 
@@ -657,10 +657,10 @@ result.print_result()    # Pretty-print output
 
 ## Troubleshooting
 
-- **CLI not found**: Install via `npm install -g @agentspan/agentspan`, or use `pip install agentspan` for SDK-only.
+- **CLI not found**: Install via `npm install -g @agentspan-ai/agentspan`, or use `pip install agentspan` for SDK-only.
 - **Connection refused**: Verify `AGENTSPAN_SERVER_URL` is correct and server is running. Try `agentspan doctor`.
 - **401 Unauthorized**: Run `agentspan configure` with correct credentials.
-- **Missing credentials**: Store with `agentspan credentials set --name KEY`. Agent gets `FAILED_WITH_TERMINAL_ERROR` if credential is missing.
+- **Missing credentials**: Store with `agentspan credentials set KEY value`. Agent gets `FAILED_WITH_TERMINAL_ERROR` if credential is missing.
 - **Tool schema errors**: Ensure tool functions have type hints and docstrings.
 - **Agent name collision**: Agent names must be unique. Check with `agentspan agent list`.
 - **Docs**: https://github.com/agentspan-ai/agentspan

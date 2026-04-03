@@ -35,9 +35,9 @@ agent = Agent(
 if __name__ == "__main__":
     with AgentRuntime() as rt:
         handle = rt.start(agent, "Delete all .tmp files in /tmp/cleanup/")
-        print(f"Execution started: {handle.workflow_id}")
+        print(f"Execution started: {handle.execution_id}")
         print("Waiting for approval... Run:")
-        print(f"  agentspan agent respond {handle.workflow_id} --approve")
+        print(f"  agentspan agent respond {handle.execution_id} --approve")
 ```
 
 ### Step 2 — Run it

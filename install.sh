@@ -5,13 +5,13 @@ set -euo pipefail
 # Works on macOS (bash 3.x) and Linux (bash 4+).
 #
 # Usage:
-#   curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --all
-#   curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --agent claude
-#   curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --all --upgrade
-#   curl -sSL https://raw.githubusercontent.com/agentspan/agentspan-skills/main/install.sh | bash -s -- --all --uninstall
+#   curl -sSL https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main/install.sh | bash -s -- --all
+#   curl -sSL https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main/install.sh | bash -s -- --agent claude
+#   curl -sSL https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main/install.sh | bash -s -- --all --upgrade
+#   curl -sSL https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main/install.sh | bash -s -- --all --uninstall
 
-REPO_URL="https://raw.githubusercontent.com/agentspan/agentspan-skills/main"
-VERSION_URL="https://raw.githubusercontent.com/agentspan/agentspan-skills/main/VERSION"
+REPO_URL="https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main"
+VERSION_URL="https://raw.githubusercontent.com/agentspan-ai/agentspan-skills/main/VERSION"
 
 SKILL_FILES=(
   "skills/agentspan/SKILL.md"

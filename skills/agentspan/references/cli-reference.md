@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm install -g @agentspan/agentspan
+npm install -g @agentspan-ai/agentspan
 ```
 
 ## Server management
@@ -11,7 +11,7 @@ npm install -g @agentspan/agentspan
 ### Start server
 
 ```bash
-agentspan server start [--port 8080] [--model openai/gpt-4o]
+agentspan server start [--port 6767] [--model openai/gpt-4o]
 ```
 
 Starts the local AgentSpan runtime server. Auto-downloads the server JAR if not cached.
@@ -29,12 +29,6 @@ agentspan server logs [-f]
 ```
 
 `-f` follows the log output in real-time.
-
-### Server status
-
-```bash
-agentspan server status
-```
 
 ## Agent commands
 
@@ -123,7 +117,8 @@ Streams SSE events in real-time: `tool_call`, `thinking`, `guardrail_pass`, `gua
 
 ```bash
 agentspan agent respond <execution-id> --approve
-agentspan agent respond <execution-id> --reject --reason "Not ready"
+agentspan agent respond <execution-id> --deny --reason "Not ready"
+agentspan agent respond <execution-id> --deny -m "Please use a different approach"
 ```
 
 ### Deploy agent
@@ -139,10 +134,15 @@ Pushes agent definition to the server.
 ### Store credential
 
 ```bash
-agentspan credentials set --name <KEY_NAME>
+# Simple form — logical key name equals storage name
+agentspan credentials set KEY_NAME value
+
+# Advanced form — custom storage name (useful when binding multiple logical keys to one secret)
+agentspan credentials set --name STORE_NAME value
+agentspan credentials bind LOGICAL_KEY STORE_NAME
 ```
 
-Prompts for the value securely. Stored encrypted (AES-256-GCM) on the server.
+Value is passed as a positional argument. Stored encrypted (AES-256-GCM) on the server. Key names are shown in `list` — values are never exposed.
 
 ### List credentials
 
