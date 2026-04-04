@@ -89,10 +89,10 @@ from agentspan.agents.testing import mock_run, MockEvent, expect
 - `RegexGuardrail` has no `flags=` param
 
 ### configure() server URL
-`configure(server_url=...)` requires the URL to include `/api`:
+Both forms work — the SDK auto-appends `/api` in `config.py __post_init__`:
 ```python
-configure(server_url="http://localhost:6767/api")   # correct
-configure(server_url="http://localhost:6767")        # WRONG — builds bad URLs
+configure(server_url="http://localhost:6767/api")   # explicit — preferred
+configure(server_url="http://localhost:6767")        # also works — SDK appends /api automatically
 ```
 
 ### Additional built-in tools (server-side, no worker needed)
