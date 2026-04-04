@@ -4,7 +4,7 @@
   "query": "I want to start building AI agents with AgentSpan but I don't have anything set up yet.",
   "expected_behavior": [
     "Check if agentspan CLI is installed (agentspan --version)",
-    "If missing, install via npm install -g @agentspan/agentspan",
+    "If missing, install via npm install -g @agentspan-ai/agentspan",
     "Ask user: local server or remote server",
     "Start local server if chosen (agentspan server start)",
     "Run agentspan doctor to verify setup",
