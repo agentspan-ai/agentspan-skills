@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **Agentspan is now part of [Orkes Conductor](https://github.com/conductor-oss/conductor)** (August 17, 2026). This repository is archived read-only. The skills here target the final Agentspan CLI/SDK and continue to work as published; for the maintained agent runtime see the [migration guide](https://github.com/agentspan-ai/agentspan/blob/main/MIGRATION.md) and [orkes.io/content/devguide/ai](https://orkes.io/content/devguide/ai).
+
 # AgentSpan Skills for AI Coding Agents
 
 > AI agents that don't die when your process dies.
